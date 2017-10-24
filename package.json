@@ -1,0 +1,35 @@
+{
+  "name": "open-dataapi-node",
+  "version": "1.0.0",
+  "description": "open data search api in node on top of elasticsearch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bizoton19/open-dataapi-node.git"
+  },
+  "keywords": [
+    "restful",
+    "node",
+    "api",
+    "opendata",
+    "search"
+  ],
+  "author": "Alexandre Salomon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bizoton19/open-dataapi-node/issues"
+  },
+  "homepage": "https://github.com/bizoton19/open-dataapi-node#readme",
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  },
+  "dependencies": {
+    "bodybuilder": "^2.2.6",
+    "elasticsearch": "^13.3.1",
+    "express": "^4.16.1"
+  }
+}
