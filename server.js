@@ -30,7 +30,7 @@ client.ping({
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-
+app.use(express.static('web-client'))
 var routes = require('./api/routes/searchRoutes');//import route
 routes(app);//register route
 
