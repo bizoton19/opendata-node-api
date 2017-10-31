@@ -35,6 +35,6 @@ app.use(express.static('web-client'))
 var routes = require('./api/routes/searchRoutes');//import route
 routes(app);//register route
 let server = require('http').Server(app)
-server.listen(port,()=>{
+server.listen(process.env.PORT,()=>{
     console.log('listening on port ' + port)
 });
