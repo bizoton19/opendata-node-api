@@ -5,10 +5,10 @@ var express = require('express'),
     //jsonschema= require('express-json-schema'),
     //hits=require('./api/models/searchModel'),
     bodyParser= require('body-parser');
-console.log('listening on port ' + port)
+
 //elasticsearch instance connection url
 var client = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: 'https://23bf5fceda4a1576ebcdadb4e252a3a3.us-east-1.aws.found.io:9243',
     log: 'trace'
 
 });
@@ -34,5 +34,6 @@ app.use(express.static('web-client'))
 var routes = require('./api/routes/searchRoutes');//import route
 routes(app);//register route
 
-app.listen(port);
-console.log('open data search api is live and ready')
+app.listen(port,()=>{
+    console.log('listening on port ' + port)
+});
