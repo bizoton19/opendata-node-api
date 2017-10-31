@@ -32,7 +32,7 @@ app.use(express.static(__dirname + '/web-client'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 //app.use(express.static('web-client'))
-var routes = require('./api/routes/searchRoutes');//import route
+var routes = require('./api/routes/searchroutes');//import route
 routes(app);//register route
 let server = require('http').Server(app)
 app.listen(port,()=>{
