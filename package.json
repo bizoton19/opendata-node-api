@@ -2,10 +2,14 @@
   "name": "open-dataapi-node",
   "version": "1.0.0",
   "description": "open data search api in node on top of elasticsearch",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
+  },
+  "engines": {
+    "node": "7.10.0",
+    "npm": "4.2.0"
   },
   "repository": {
     "type": "git",
@@ -31,8 +35,6 @@
     "bodybuilder": "^2.2.6",
     "elasticsearch": "^13.3.1",
     "express": "^4.16.1"
-  },
-  "engines": {
-    "node": "7.10.0"
   }
+ 
 }
