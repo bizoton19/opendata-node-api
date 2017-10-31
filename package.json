@@ -1,5 +1,5 @@
 {
-  "name": "open-dataapi-node",
+  "name": "open-api-node",
   "version": "1.0.0",
   "description": "open data search api in node on top of elasticsearch",
   "main": "server.js",

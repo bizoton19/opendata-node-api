@@ -28,13 +28,13 @@ client.ping({
 
 
 );
-
+app.use(express.static(__dirname + '/web-client'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(express.static('web-client'))
+//app.use(express.static('web-client'))
 var routes = require('./api/routes/searchRoutes');//import route
 routes(app);//register route
 let server = require('http').Server(app)
-server.listen(process.env.PORT,()=>{
+app.listen(port,()=>{
     console.log('listening on port ' + port)
 });
