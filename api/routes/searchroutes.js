@@ -4,9 +4,9 @@ module.exports= (app) => {
     
     
     //general search routes
-    app.get('/', function(req, res, next){
-        res.sendStatus(200);
-    });
+    //app.get('/', function(req, res, next){
+    //    res.sendStatus(200);
+   // });
     app.route('/search/type=:type&q=:search_query&per_page=:per_page&:start_page=:page')
         .get(searchController.hits)
     app.route('/search')
