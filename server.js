@@ -2,7 +2,6 @@ var express = require('express'),
     app = express(),
     port = process.env.PORT || 3000,
     elasticsearch=require('elasticsearch'),
-    
     //jsonschema= require('express-json-schema'),
     //hits=require('./api/models/searchModel'),
     bodyParser= require('body-parser');
@@ -31,10 +30,8 @@ client.ping({
 app.use(express.static(__dirname + '/web-client'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-//app.use(express.static('web-client'))
-var routes = require('./api/routes/searchroutes');//import route
+var routes = require('./api/routes/search-routes');//import route
 routes(app);//register route
-let server = require('http').Server(app)
 app.listen(port,()=>{
     console.log('listening on port ' + port)
 });
