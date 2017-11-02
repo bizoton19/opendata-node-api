@@ -1,7 +1,7 @@
 'use strict'
 var bodyBuilder = require('bodybuilder');
 var elasticsearch = require('elasticsearch');
-config=require('../../config');
+var config=require('../../config');
 //jsonschema= require('express-json-schema'),
 //hits=require('./api/models/searchModel'),
 bodyParser= require('body-parser');
