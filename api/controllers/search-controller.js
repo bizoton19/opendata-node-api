@@ -4,7 +4,7 @@ var elasticsearch = require('elasticsearch');
 var config=require('../../config');
 //jsonschema= require('express-json-schema'),
 //hits=require('./api/models/searchModel'),
-bodyParser= require('body-parser');
+var bodyParser= require('body-parser');
 
 console.log("remote es url is :" +config.host)
 //elasticsearch instance connection url
