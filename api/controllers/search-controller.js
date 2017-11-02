@@ -1,26 +1,20 @@
 'use strict'
 var bodyBuilder = require('bodybuilder');
 var elasticsearch = require('elasticsearch');
+config=require('../../config');
+//jsonschema= require('express-json-schema'),
+//hits=require('./api/models/searchModel'),
+bodyParser= require('body-parser');
+
+console.log("remote es url is :" +config.host)
+//elasticsearch instance connection url
 var client = new elasticsearch.Client({
-    host: 'localhost:9200',
-    log: 'trace'
+host: config.host,
+httpAuth:config.username+':'+config.password,
+log: 'trace'
 
 });
 
-client.ping({
-    requestTimeout: 30000,
-
-}, function (error) {
-    if (error) {
-        console.error('elastic cluster is down!');
-
-    } else {
-        console.log('Cluster is up');
-    }
-}
-
-
-);
 
 exports.post = (req, response) => {
     console.log(req.body);
