@@ -2,13 +2,16 @@ var express = require('express'),
     app = express(),
     port = process.env.PORT || 3000,
     elasticsearch=require('elasticsearch'),
+    config=require('./config')
     //jsonschema= require('express-json-schema'),
     //hits=require('./api/models/searchModel'),
     bodyParser= require('body-parser');
-    
+
+    console.log("remote es url is :" +config.host)
 //elasticsearch instance connection url
 var client = new elasticsearch.Client({
-    host: 'https://23bf5fceda4a1576ebcdadb4e252a3a3.us-east-1.aws.found.io:9243',
+    host: config.host,
+    httpAuth:config.username+':'+config.password,
     log: 'trace'
 
 });
