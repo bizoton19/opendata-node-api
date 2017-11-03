@@ -2,11 +2,9 @@ require('dotenv').config()
 var express = require('express'),
     app = express(),
     port = process.env.PORT || 3000,
-    
     elasticsearch=require('elasticsearch'),
     config=require('./config'),
     //jsonschema= require('express-json-schema'),
-    //hits=require('./api/models/searchModel'),
     bodyParser= require('body-parser');
 
     console.log("remote es url is :" +config.host)
