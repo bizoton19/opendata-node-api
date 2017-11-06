@@ -1,27 +1,28 @@
 'use strict'
 var bodyBuilder = require('bodybuilder');
 var elasticsearch = require('elasticsearch');
-var config=require('../../config');
+var config = require('../../config');
 //jsonschema= require('express-json-schema'),
-var bodyParser= require('body-parser');
+var bodyParser = require('body-parser');
 
-console.log("remote es url is :" +config.host)
+console.log("remote es url is :" + config.host)
 //elasticsearch instance connection url
 var client = new elasticsearch.Client({
-host: config.host,
-httpAuth:config.username+':'+config.password,
-log: 'trace'
+    host: config.host,
+    httpAuth: config.username + ':' + config.password,
+    log: 'trace'
 
 });
 
 
 exports.post = (req, response) => {
-    console.log(req.body);
-    var reqBody = req.body;
-    var docType = reqBody.Filter.Type;
-    console.log(docType);
+    console.log(req.body)
+    var reqBody = req.body
+    var docType = reqBody.Filter.Type
+    var inputSource=reqBody.Filter.Source
+    console.log(inputSource);
     var searchParams = {
-        index: 'cpsc-*',
+        index: inputSource +'-*',
         type: docType,
         from: (reqBody.StartPage - 1) * reqBody.NumPerPage,
         size: reqBody.NumPerPage,
@@ -32,7 +33,20 @@ exports.post = (req, response) => {
 
                 },
 
+            },
+            aggregations: {
+                artifact_type: {
+                    terms: {
+                        field: 'type.keyword'
+                    }
+                },
+                artifact_source: {
+                    terms: {
+                        field: 'artifactSource.keyword' //case sensitive
+                    }
+                }
             }
+
 
         }
 
@@ -48,6 +62,7 @@ exports.post = (req, response) => {
 
             response.status(200).json({
                 results: res,
+                aggregations: res.aggregations,
                 docCount: res.hits.total,
                 page: reqBody.StartPage,
                 pages: Math.ceil((res.hits.total) / reqBody.NumPerPage)
@@ -93,6 +108,7 @@ exports.hits = (req, response) => {
 
             response.status(200).json({
                 results: res.hits.hits,
+                aggregations: res.aggregations,
                 page: pageNum,
                 pages: Math.ceil((res.hits.total) / perPage)
 
