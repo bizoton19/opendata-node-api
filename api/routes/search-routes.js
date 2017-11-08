@@ -5,9 +5,9 @@ module.exports= (app) => {
     //general search routes
     
     app.route('/search/type=:type&q=:search_query&per_page=:per_page&:start_page=:page')
-        .get(searchController.hits)
+        .get(searchController.queryStringSearch)
     app.route('/search')
-       .post(searchController.post)
+       .post(searchController.baseSearch)
 
    
 }

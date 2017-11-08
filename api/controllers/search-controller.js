@@ -15,14 +15,14 @@ var client = new elasticsearch.Client({
 });
 
 
-exports.post = (req, response) => {
-    console.log(req.body)
+exports.baseSearch = (req, response) => {
+
     var reqBody = req.body
-    var docType = reqBody.Filter.Type
-    var inputSource=reqBody.Filter.Source
+    var docType = reqBody.Filter.Type.length > 0 ? reqBody.Filter.Type : ''
+    var inputSource = reqBody.Filter.Source.length > 0 ? reqBody.Filter.Source : ''
     console.log(inputSource);
     var searchParams = {
-        index: inputSource +'-*',
+        index: inputSource + '*',
         type: docType,
         from: (reqBody.StartPage - 1) * reqBody.NumPerPage,
         size: reqBody.NumPerPage,
@@ -72,7 +72,7 @@ exports.post = (req, response) => {
     });
 
 };
-exports.hits = (req, response) => {
+exports.queryStringSearch = (req, response) => {
     var pageNum = req.params.page;
     var perPage = req.params.per_page;
     var userQuery = req.params.search_query;
@@ -104,7 +104,7 @@ exports.hits = (req, response) => {
             console.log('there was n error')
             response.status(400).json({ error: err })
         } else {
-            console.log('alex sucesssssssss')
+            console.log('the hits url is being called')
 
             response.status(200).json({
                 results: res.hits.hits,

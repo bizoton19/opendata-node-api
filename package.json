@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev":"nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "engines": {
     "node": "7.10.0",
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "bodybuilder": "^2.2.6",
+    "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "elasticsearch": "^13.3.1",
     "express": "^4.16.1"

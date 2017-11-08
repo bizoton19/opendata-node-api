@@ -4,6 +4,7 @@ var express = require('express'),
     port = process.env.PORT || 3000,
     elasticsearch=require('elasticsearch'),
     config=require('./config'),
+    cors = require('cors'),
     //jsonschema= require('express-json-schema'),
     bodyParser= require('body-parser');
 
@@ -32,7 +33,8 @@ client.ping({
 );
 app.use(express.static(__dirname + '/web-client'));
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json())
+app.use(cors())
 var routes = require('./api/routes/search-routes');//import route
 routes(app);//register route
 app.listen(port,()=>{
