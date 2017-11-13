@@ -28,10 +28,19 @@ exports.baseSearch = (req, response) => {
         size: reqBody.NumPerPage,
         body: {
             query: {
-                match: {
-                    _all: reqBody.FullText
+                query_string: {
+                    query: reqBody.FullText
 
                 },
+                filter: [ 
+                    { terms:  { _type: [reqBody.Type] }}, 
+                    { range: {
+                         artifactDate: {
+                         gte: reqBody.StartDate,
+                         lte: reqBody.EndDate,
+                         format: "dd/MM/yyyy||dd/MM/yyyy"
+                    }}}
+                  ]
 
             },
             aggregations: {
@@ -45,7 +54,9 @@ exports.baseSearch = (req, response) => {
                         field: 'artifactSource.keyword' //case sensitive
                     }
                 }
+                             
             }
+          
 
 
         }
@@ -62,7 +73,7 @@ exports.baseSearch = (req, response) => {
 
             response.status(200).json({
                 results: res,
-                aggregations: res.aggregations,
+                aggregations: res.hits.total>0?res.aggregations:null,
                 docCount: res.hits.total,
                 page: reqBody.StartPage,
                 pages: Math.ceil((res.hits.total) / reqBody.NumPerPage)
