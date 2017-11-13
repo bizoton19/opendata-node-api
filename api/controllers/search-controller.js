@@ -28,20 +28,11 @@ exports.baseSearch = (req, response) => {
         size: reqBody.NumPerPage,
         body: {
             query: {
-                query_string: {
-                    query: reqBody.FullText
+                match: {
+                    _all: reqBody.FullText
 
-                },
-                filter: [ 
-                    { terms:  { _type: [reqBody.Type] }}, 
-                    { range: {
-                         artifactDate: {
-                         gte: reqBody.StartDate,
-                         lte: reqBody.EndDate,
-                         format: "dd/MM/yyyy||dd/MM/yyyy"
-                    }}}
-                  ]
-
+                }
+               
             },
             aggregations: {
                 artifact_type: {
