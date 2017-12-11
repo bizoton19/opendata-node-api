@@ -22,5 +22,5 @@ cd "C:\Users\aleja\OneDrive\GitHUb\open-api-nodejs"
 npm start
 Start-Sleep -Seconds 7
 #start search web app
-cd "C:\Users\aleja\OneDrive\GitHUb\recalls-search-vuejs"
+#cd "C:\Users\aleja\OneDrive\GitHUb\recalls-search-vuejs"
 npm start

@@ -2,41 +2,41 @@ require('dotenv').config()
 var express = require('express'),
     app = express(),
     port = process.env.PORT || 3000,
-    elasticsearch=require('elasticsearch'),
-    config=require('./config'),
+    elasticsearch = require('elasticsearch'),
+    config = require('./config'),
     cors = require('cors'),
     //jsonschema= require('express-json-schema'),
-    bodyParser= require('body-parser');
+    bodyParser = require('body-parser');
 
-    console.log("remote es url is :" +config.host)
+console.log("remote es url is :" + config.host)
 //elasticsearch instance connection url
 var client = new elasticsearch.Client({
     host: config.host,
-    httpAuth:config.username+':'+config.password,
+    httpAuth: config.username + ':' + config.password,
     log: 'trace'
 
 });
 
 client.ping({
-        requestTimeout: 30000,
+    requestTimeout: 30000,
 
-    }, function(error) {
-        if (error) {
-            console.error('elastic cluster is down!');
+}, function (error) {
+    if (error) {
+        console.error('elastic cluster is down!');
 
-        } else {
-            console.log('Cluster is up');
-        }
+    } else {
+        console.log('Cluster is up');
     }
+}
 
 
 );
 app.use(express.static(__dirname + '/web-client'));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 app.use(cors())
 var routes = require('./api/routes/search-routes');//import route
 routes(app);//register route
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log('listening on port ' + port)
 });

@@ -1,9 +1,11 @@
 'use strict'
-var bodyBuilder = require('bodybuilder');
+var bodybuilder = require('bodybuilder');
 var elasticsearch = require('elasticsearch');
 var config = require('../../config');
 //jsonschema= require('express-json-schema'),
 var bodyParser = require('body-parser');
+var searchmodel = require('../models/search-model')
+var searchresult = require('../models/search-results')
 
 console.log("remote es url is :" + config.host)
 //elasticsearch instance connection url
@@ -14,13 +16,10 @@ var client = new elasticsearch.Client({
 
 });
 
-
-exports.baseSearch = (req, response) => {
-
+exports.crossDatasetSearch = (req, response) => {
     var reqBody = req.body
     var docType = reqBody.Filter.Type.length > 0 ? reqBody.Filter.Type : ''
     var inputSource = reqBody.Filter.Source.length > 0 ? reqBody.Filter.Source : ''
-    console.log(inputSource);
     var searchParams = {
         index: inputSource + '*',
         type: docType,
@@ -32,7 +31,7 @@ exports.baseSearch = (req, response) => {
                     _all: reqBody.FullText
 
                 }
-               
+
             },
             aggregations: {
                 artifact_type: {
@@ -45,9 +44,9 @@ exports.baseSearch = (req, response) => {
                         field: 'artifactSource.keyword' //case sensitive
                     }
                 }
-                             
+
             }
-          
+
 
 
         }
@@ -61,19 +60,38 @@ exports.baseSearch = (req, response) => {
             response.status(400).json({ error: err })
         } else {
             console.log('alex sucesssssssss')
-
-            response.status(200).json({
-                results: res,
-                aggregations: res.hits.total>0?res.aggregations:null,
-                docCount: res.hits.total,
-                page: reqBody.StartPage,
-                pages: Math.ceil((res.hits.total) / reqBody.NumPerPage)
-
-            });
+            response.status(200).json(
+                buildSearchResultModel(req, res)
+            );
         }
     });
 
 };
+
+function buildSearchResultModel(req, res) {
+    var resData = res.hits.hits
+    var searchRes = new searchresult()
+    var resModel;
+    for (var r = 0; r < resData.length; r++) {
+
+        resModel = new searchmodel()
+        resModel.type = resData[r]._type
+        resModel.artifactSource = resData[r]._source.artifactSource
+        resModel.artifactDate = resData[r]._source.artifactDate
+        resModel.category = resData[r]._source.category
+        resModel.description = resData[r]._source.description
+        resModel.title = resData[r]._source.title
+        resModel.uuid = resData[r]._source.uuid
+        resModel.tags = []
+        searchRes.artifacts.push(resModel);
+    }
+    searchRes.aggregation = res.aggregations
+    searchRes.docCount = res.hits.total
+    searchRes.startPage = req.body.StartPage
+    searchRes.totalPages = Math.ceil((res.hits.total) / req.body.NumPerPage)
+    return searchRes
+}
+
 exports.queryStringSearch = (req, response) => {
     var pageNum = req.params.page;
     var perPage = req.params.per_page;

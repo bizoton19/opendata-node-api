@@ -1,11 +1,16 @@
-'use strict'
+module.exports  =
+function artifact(){
+    this.uuid='',
+    this.title='',
+    this.artifactDate=null,
+    this.artifactSource='',
+    this.description='',
+    this.category=''
+    this.type='',
+    this.tags=[]
 
-var elasticsearch = require('elasticsearch');
-var client = new elasticsearch.Client({
-    host: 'localhost:9200',
-    log: 'trace'
-});
-  
+}
+
 
 
 
