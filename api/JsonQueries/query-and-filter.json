@@ -1,0 +1,57 @@
+{
+    "query": {
+        "bool": {
+            "must": [
+
+                {
+                    "match": {
+                        "_all": "fire"
+                    }
+                }
+            ],
+
+            "filter": {
+                "bool": {
+                    "must": [{
+                            "terms": {
+                                "_type": ["neissreport"]
+                            }
+
+                        },
+
+                        {
+                            "range": {
+                                "artifactDate": {
+                                    "gte": "1970-09-20",
+                                    "lte": "2009-09-26"
+                                }
+                            }
+                        }
+                    ]
+
+                }
+            }
+
+        }
+
+    },
+    "sort": [
+        { "_type": { "order": "desc" } },
+        { "artifactDate": { "order": "desc" } }
+
+    ],
+    "aggregations": {
+        "artifact_type": {
+            "terms": {
+                "field": "type.keyword"
+            }
+        },
+        "artifact_source": {
+            "terms": {
+                "field": "artifactSource.keyword"
+            }
+        }
+    }
+
+
+}
