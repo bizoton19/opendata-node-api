@@ -61,6 +61,7 @@ exports.crossDatasetSearch = (req, response) => {
         } else {
             console.log('alex sucesssssssss')
             response.status(200).json(
+                
                 buildSearchResultModel(req, res)
             );
         }
@@ -72,23 +73,28 @@ function buildSearchResultModel(req, res) {
     var resData = res.hits.hits
     var searchRes = new searchresult()
     var resModel;
+    
     for (var r = 0; r < resData.length; r++) {
-
+        var src =  resData[r]._source
         resModel = new searchmodel()
-        resModel.type = resData[r]._type
-        resModel.artifactSource = resData[r]._source.artifactSource
-        resModel.artifactDate = resData[r]._source.artifactDate
-        resModel.category = resData[r]._source.category
-        resModel.description = resData[r]._source.description
-        resModel.title = resData[r]._source.title
-        resModel.uuid = resData[r]._source.uuid
-        resModel.tags = []
+        resModel.type = src.type
+        resModel.artifactSource = src.artifactSource
+        resModel.artifactDate = new Date(src.artifactDate).toLocaleDateString()
+        resModel.category = src.category
+        resModel.description = src.description
+        resModel.title = src.title
+        resModel.uuid = src.uUID
+        resModel.url = src.uRL
+        resModel.tags = [],
+        resModel.images=src.images
         searchRes.artifacts.push(resModel);
     }
     searchRes.aggregation = res.aggregations
     searchRes.docCount = res.hits.total
     searchRes.startPage = req.body.StartPage
     searchRes.totalPages = Math.ceil((res.hits.total) / req.body.NumPerPage)
+    searchRes.maxScore = res.hits.max_score
+    searchRes.took = res.took;
     return searchRes
 }
 
